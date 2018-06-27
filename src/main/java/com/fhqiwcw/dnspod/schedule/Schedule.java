@@ -3,7 +3,6 @@ package com.fhqiwcw.dnspod.schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,14 +18,10 @@ public class Schedule {
 	@Autowired
 	private DnsUpdater updater;
 	
-	@Value("${dnsupdate.interval}")
-	private int updateInterval;
-	
 	@Autowired
 	private IpCache ipCache;
 	
-	//@Scheduled(fixedDelay=300000)
-	@Scheduled(fixedDelay=1000)
+	@Scheduled(fixedDelayString="${dnsupdate.interval}")
 	public void updateARecord() {
 		String ip = IPUtils.getOutInternetIpAdderss();
 		
