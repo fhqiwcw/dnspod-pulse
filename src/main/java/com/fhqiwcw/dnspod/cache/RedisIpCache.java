@@ -9,6 +9,7 @@ public class RedisIpCache implements IpCache{
 
 	private static String IP_CACHE_KEY = "ip_cache_key";
 
+	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 
 	@Override

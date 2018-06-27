@@ -15,26 +15,25 @@ public class IpCacheFactory implements FactoryBean<IpCache> {
 	public IpCacheFactory(String ipCacheStrategy) {
 		this.ipCacheStrategy = ipCacheStrategy;
 	}
-	
+
+	@Autowired
+	private LocalIpCache localIpCache;
+
+	@Autowired
+	private RedisIpCache redisIpCache;
+
 	@Autowired
 	public StringRedisTemplate stringRedisTemplate;
 
-	public IpCache getIpCache() {
+	@Override
+	public IpCache getObject() throws Exception {
 		if ("local".equalsIgnoreCase(ipCacheStrategy)) {
-			return new LocalIpCache();
+			return localIpCache;
 		} else if ("redis".equalsIgnoreCase(ipCacheStrategy)) {
-			RedisIpCache redisIpCache = new RedisIpCache();
-			//redisIpCache.setStringRedisTemplate(context.getBean(StringRedisTemplate.class));
-			redisIpCache.setStringRedisTemplate(stringRedisTemplate);
 			return redisIpCache;
 		} else {
 			return null;
 		}
-	}
-
-	@Override
-	public IpCache getObject() throws Exception {
-		return getIpCache();
 	}
 
 	@Override
@@ -47,6 +46,5 @@ public class IpCacheFactory implements FactoryBean<IpCache> {
 		// return FactoryBean.super.isSingleton();
 		return true;
 	}
-
 
 }
