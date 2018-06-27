@@ -2,6 +2,7 @@ package com.fhqiwcw.dnspod.dns;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -11,6 +12,9 @@ import org.springframework.web.client.RestTemplate;
 public class DnsUpdater {
 
 	private Logger logger = LoggerFactory.getLogger(DnsUpdater.class);
+	
+	@Value("${dnsupdate.enabled}")
+	private boolean updateEnabled;
 
 	public void update(String ip) {
 		RestTemplate restTemplate = new RestTemplate();
@@ -28,8 +32,12 @@ public class DnsUpdater {
 		postParameters.add("value", ip);
 		postParameters.add("record_type", "A");
 		postParameters.add("record_line_id", "0");
-		String result = restTemplate.postForObject(url, postParameters, String.class);
-		logger.info("update result:{}", result);
+		String result = "";
+		if(updateEnabled) {
+			result = restTemplate.postForObject(url, postParameters, String.class);
+		}
+		logger.debug("update switch:{}", updateEnabled);
+		logger.info("ip: {} ,update result:{}", ip, result);
 
 	}
 

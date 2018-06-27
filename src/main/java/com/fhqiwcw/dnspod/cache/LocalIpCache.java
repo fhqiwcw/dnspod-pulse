@@ -1,6 +1,9 @@
-package com.fhqiwcw.dnspod.util;
+package com.fhqiwcw.dnspod.cache;
 
-public class Cache {
+import org.springframework.stereotype.Component;
+
+@Component
+public class LocalIpCache implements IpCache{
 	
 	private static String ip;
 	
@@ -12,7 +15,8 @@ public class Cache {
 		return ip;
 	}
 	
-	public static boolean compareAndPut(String ipAddress) {
+	@Override
+	public boolean compareAndPut(String ipAddress) {
 		if(ipAddress == ip) {
 			return false;
 		}

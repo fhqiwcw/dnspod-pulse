@@ -1,15 +1,16 @@
 package com.fhqiwcw.dnspod.schedule;
 
-import java.util.Calendar;
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.fhqiwcw.dnspod.cache.IpCache;
 import com.fhqiwcw.dnspod.dns.DnsUpdater;
-import com.fhqiwcw.dnspod.util.Cache;
 import com.fhqiwcw.dnspod.util.IPUtils;
 
 @Component
@@ -20,14 +21,22 @@ public class Schedule {
 	@Autowired
 	private DnsUpdater updater;
 	
-	@Scheduled(fixedDelay=60000)
+	@Value("${dnsupdate.interval}")
+	private int updateInterval;
+	
+	@Resource(name="ipCacheFactoryBean")
+	private IpCache ipCache;
+	
+	//@Scheduled(fixedDelay=300000)
+	@Scheduled(fixedDelay=1000)
 	public void updateARecord() {
 		String ip = IPUtils.getOutInternetIpAdderss();
-		if(Cache.compareAndPut(ip)) {
+		
+		if(ipCache.compareAndPut(ip)) {
 			updater.update(ip);
-			logger.info("running at:" + Calendar.getInstance().getTime());
+		}else {
+			logger.info("running but not updated , current ip: {}" , ip);
 		}
-		logger.info("running but not updated");
 	}
 
 }
