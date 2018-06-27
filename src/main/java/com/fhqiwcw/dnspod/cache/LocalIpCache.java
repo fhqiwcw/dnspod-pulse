@@ -2,6 +2,10 @@ package com.fhqiwcw.dnspod.cache;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * @author zhaojun
+ * 本地static缓存，缺点是重启后失效
+ */
 @Component
 public class LocalIpCache implements IpCache{
 	

@@ -21,6 +21,9 @@ public class Schedule {
 	@Autowired
 	private IpCache ipCache;
 	
+	/**
+	 * 定时任务，读取application中的配置值，在固定时间间隔后执行任务
+	 */
 	@Scheduled(fixedDelayString="${dnsupdate.interval}")
 	public void updateARecord() {
 		String ip = IPUtils.getOutInternetIpAdderss();
