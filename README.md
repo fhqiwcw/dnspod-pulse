@@ -38,6 +38,17 @@ public class Schedule {
 
 }
 ```
+## 启动应用即可看到日志输出
+
+## 小技巧：
+
+> @Scheduled(fixedDelayString="${dnsupdate.interval}")
+> 注解中可以使用表达式从配置中读取值
+> 如上是将定时任务做成可配置化，实际应用为开发环境将定时任务设置为1秒钟执行一次，而生产上可能是1小时执行
+
+--- 
+
+# Spring 使用小结
 
 ## @Autowired 生效范围：只要是Spring管理的Bean都会生产，例如@Component注解的Bean,实现FactoryBean的Bean等等。
 
@@ -116,7 +127,7 @@ public class IpCacheFactory implements FactoryBean<IpCache> {
 }
 ```
 
-## 启动应用即可看到日志输出
 
+---
 * [邮件]fhqiwcw@gmail.com
 * [QQ]116520782
