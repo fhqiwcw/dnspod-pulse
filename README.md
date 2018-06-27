@@ -39,6 +39,83 @@ public class Schedule {
 }
 ```
 
+## @Autowired 生效范围：只要是Spring管理的Bean都会生产，例如@Component注解的Bean,实现FactoryBean的Bean等等。
+
+```java
+    @Bean
+    @Primary
+    public IpCacheFactory getIpCacheFactory(StringRedisTemplate stringRedisTemplate) {
+        return new IpCacheFactory("redis");
+    }
+```
+
+## @Primary 有时工程是定义了多个类型相同的Bean ，这时使用@Autowired注入时会报错有多个类型相同的Bean，这时只能对优先选择的Bean声明时加上@Primary注解，则注入时就会使用此Bean
+
+## FactoryBean
+
+```java
+@Configuration
+@EnableScheduling
+public class AppConfig {
+    
+    @Bean
+    public RedisConnectionFactory getRedisConnectionFactory() {
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("192.168.1.101", 6379);
+        return new JedisConnectionFactory(config);
+    }
+    
+    @Bean
+    @Primary
+    public IpCacheFactory getIpCacheFactory(StringRedisTemplate stringRedisTemplate) {
+        return new IpCacheFactory("redis");
+    }
+
+}
+```
+```java
+public class IpCacheFactory implements FactoryBean<IpCache> {
+
+    private String ipCacheStrategy;
+
+    public IpCacheFactory(String ipCacheStrategy) {
+        this.ipCacheStrategy = ipCacheStrategy;
+    }
+
+    @Autowired
+    private LocalIpCache localIpCache;
+
+    @Autowired
+    private RedisIpCache redisIpCache;
+
+    @Autowired
+    public StringRedisTemplate stringRedisTemplate;
+
+    @Override
+    public IpCache getObject() throws Exception {
+        if ("local".equalsIgnoreCase(ipCacheStrategy)) {
+            return localIpCache;
+        } else if ("redis".equalsIgnoreCase(ipCacheStrategy)) {
+            return redisIpCache;
+        } else {
+            return null;
+        }
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public Class getObjectType() {
+        return null;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        // return FactoryBean.super.isSingleton();
+        return true;
+    }
+
+}
+```
+
 ## 启动应用即可看到日志输出
 
 * [邮件]fhqiwcw@gmail.com
