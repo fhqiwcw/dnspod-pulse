@@ -1,0 +1,24 @@
+endpoints:
+  sensitive: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#spring:
+#  main:
+#    banner-mode: "on"
+
+spring:
+  application:
+    admin: 
+      enabled: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+      
+dnsupdate:
+  enabled: true
+  interval: 1000
+#  cacheStrategy: redis   #local/redis
+  
