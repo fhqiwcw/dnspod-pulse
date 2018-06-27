@@ -36,6 +36,7 @@ public class IpCacheFactory implements FactoryBean<IpCache> {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Class getObjectType() {
 		return null;
