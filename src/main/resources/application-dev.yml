@@ -11,12 +11,12 @@ spring:
     admin: 
       enabled: true
   redis:
-    host: 192.168.1.101
+    host: 10.42.0.56
     port: 6379
 
 dnsupdate:
-  enabled: false
-  interval: 1000
+  enabled: true
+  interval: 60000
 #  cacheStrategy: redis   #local/redis
   
   

@@ -1,5 +1,7 @@
 package com.fhqiwcw.dnspod;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,14 +20,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 public class AppConfig {
-	
+
+	@Value("${spring.redis.host}")
+	private String redisHost;
+
+	@Value("${spring.redis.port}")
+	private int redisPort;
+
 	/**
 	 * @return
 	 * Redis配置
 	 */
 	@Bean
 	public RedisConnectionFactory getRedisConnectionFactory() {
-		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("192.168.1.101", 6379);
+		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
 	    return new JedisConnectionFactory(config);
 	}
 	
