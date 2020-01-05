@@ -16,7 +16,7 @@ spring:
 
 dnsupdate:
   enabled: true
-  interval: 60000
+  interval: ${CHECK_INTERVAL:60000}
 
 dnspod:
   login_token: ${LOGIN_TOKEN}
