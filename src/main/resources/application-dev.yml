@@ -10,13 +10,19 @@ spring:
   application:
     admin: 
       enabled: true
-  redis:
-    host: 10.42.0.56
-    port: 6379
+#  redis:
+#    host: 10.42.0.56
+#    port: 6379
 
 dnsupdate:
   enabled: true
   interval: 60000
-#  cacheStrategy: redis   #local/redis
-  
-  
+
+dnspod:
+  login_token: ${LOGIN_TOKEN}
+  domain: ${DOMAIN}
+  sub_domain: ${SUB_DOMAIN}
+  record_line_id: ${RECORD_LINE_ID:0}
+
+cacheStrategy: local   #local/redis
+

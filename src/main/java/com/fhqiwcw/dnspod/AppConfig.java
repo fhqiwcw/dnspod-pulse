@@ -1,15 +1,12 @@
 package com.fhqiwcw.dnspod;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author zhaojun
@@ -21,21 +18,24 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class AppConfig {
 
-	@Value("${spring.redis.host}")
-	private String redisHost;
+//	@Value("${spring.redis.host}")
+//	private String redisHost;
+//
+//	@Value("${spring.redis.port}")
+//	private int redisPort;
 
-	@Value("${spring.redis.port}")
-	private int redisPort;
+	@Value("${cacheStrategy}")
+	private String cacheStrategy;
 
 	/**
 	 * @return
 	 * Redis配置
 	 */
-	@Bean
-	public RedisConnectionFactory getRedisConnectionFactory() {
-		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
-	    return new JedisConnectionFactory(config);
-	}
+//	@Bean
+//	public RedisConnectionFactory getRedisConnectionFactory() {
+//		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
+//	    return new JedisConnectionFactory(config);
+//	}
 	
 	/**
 	 * @param stringRedisTemplate
@@ -46,7 +46,12 @@ public class AppConfig {
 	@Bean
 	@Primary
 	public IpCacheFactory getIpCacheFactory(StringRedisTemplate stringRedisTemplate) {
-		return new IpCacheFactory("redis");
+		return new IpCacheFactory(cacheStrategy);
+	}
+
+	@Bean
+	public RestTemplate getRestTemplate(){
+		return new RestTemplate();
 	}
 
 }
