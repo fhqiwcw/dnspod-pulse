@@ -20,7 +20,7 @@
 
 	<root level="info">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="FILE" /> 
+<!--		<appender-ref ref="FILE" /> -->
 	</root>
 	<logger name="com.fhqiwcw.dnspod.dns.Dnspod" level="info" />
 </configuration>
