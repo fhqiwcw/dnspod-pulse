@@ -18,6 +18,10 @@ fhqiwcw/dnspod-pulse-docker
 * RECORD_LINE_ID 默认为0
 * CHECK_INTERVAL 间隔多长时间检测一次IP变化，单位毫秒，建议配置检测间隔大于6000（一分钟），太小会导致请求失败，因检测IP使用阿里的API，对访问频率有限制
 
+使用问题及交流：
+
+https://github.com/fhqiwcw/dnspod-pulse/issues/3
+
 ---
 * [邮件]fhqiwcw@gmail.com
 * [QQ]116520782
