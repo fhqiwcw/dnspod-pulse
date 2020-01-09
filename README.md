@@ -1,7 +1,7 @@
 # dnspod-pulse
 定时检测公网IP，如有变化调用DDNS API将新的公网IP更新到域名
 
-
+```
 docker run \
 -e LOGIN_TOKEN=id,token \
 -e DOMAIN=your-domain.com \
@@ -9,6 +9,7 @@ docker run \
 -e RECORD_LINE_ID=0 \
 -e CHECK_INTERVAL=6000 \
 fhqiwcw/dnspod-pulse-docker
+```
 
 配置说明：
 * LOGIN_TOKEN 为ddns的鉴权token,格式为id,token 详见：https://support.dnspod.cn/Kb/showarticle/tsid/227/
